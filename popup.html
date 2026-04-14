@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YouTubeTweaks Popup</title>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #0f0f0f;
+            color: #ffffff;
+            width: 280px;
+            margin: 0;
+            padding: 20px;
+            user-select: none;
+        }
+        h1 {
+            font-size: 18px;
+            margin: 0 0 20px 0;
+            background: linear-gradient(90deg, #3ea6ff, #ff4e45);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .feature-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .feature-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #1e1e1e;
+            border-radius: 12px;
+            border: 1px solid #333;
+            transition: border-color 0.2s;
+        }
+        .feature-item:hover {
+            border-color: #444;
+        }
+        .feature-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .feature-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .feature-desc {
+            font-size: 11px;
+            color: #aaa;
+        }
+        
+        /* Premium Switch Styles */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #3ea6ff;
+        }
+        input:focus + .slider {
+            box-shadow: 0 0 1px #3ea6ff;
+        }
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .footer {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>YouTubeTweaks</h1>
+    <div class="feature-group">
+        <div class="feature-item">
+            <div class="feature-info">
+                <span class="feature-name">Shortcuts</span>
+                <span class="feature-desc">Alt+, and Alt+.</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="enableShortcuts">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="feature-item">
+            <div class="feature-info">
+                <span class="feature-name">Comments on Right</span>
+                <span class="feature-desc">Moves comments to sidebar</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="enableRightComments">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+    <div class="footer">
+        Workflow Optimization v1.0
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>

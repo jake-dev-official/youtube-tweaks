@@ -1,0 +1,37 @@
+/* Fix sidebar scroll when comments are long */
+#secondary-inner {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+#tweaks-sidebar-comments {
+    order: -1;
+    /* Keep it at the top of the sidebar */
+    margin-bottom: 24px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+/* Hide some clutter when comments are in sidebar if needed */
+body.comments-on-right #primary #comments {
+    display: block !important;
+}
+
+/* Scrollbar styling for the sidebar comments */
+#tweaks-sidebar-comments::-webkit-scrollbar {
+    width: 8px;
+}
+
+#tweaks-sidebar-comments::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#tweaks-sidebar-comments::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+}
+
+#tweaks-sidebar-comments::-webkit-scrollbar-thumb:hover {
+    background: #444;
+}
