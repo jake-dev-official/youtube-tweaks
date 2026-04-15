@@ -69,4 +69,4 @@ For the best experience and to avoid browser security blocks, **always use the "
 **V1.0 Handover Complete.**
 
 
-**Developed by JAKEDEV.**
+**Developed by JAKEDev.**
