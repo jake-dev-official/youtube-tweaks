@@ -8,14 +8,8 @@ function log(msg) {
   if (settings.enable_right_comments) applyRightComments(true);
 })();
 
-// Global keydown for features that don't fit in manifest limit (Ctrl+,)
-window.addEventListener('keydown', (e) => {
-  if (isUserTyping()) return;
-  if (e.ctrlKey && e.key === ',') {
-    e.preventDefault();
-    toggleRightComments();
-  }
-});
+// Logic is now handled via Manifest Commands (relayed through background.js)
+// This ensures shortcuts work even if changed in Chrome settings.
 
 // Listen for messages from background script or popup
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
@@ -33,6 +27,10 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     findAndClickGemini();
   } else if (request.action === 'toggle-comments') {
     toggleComments();
+  } else if (request.action === 'toggle-right-comments') {
+    toggleRightComments();
+  } else if (request.action === 'toggle-cinematic-mode') {
+    toggleCinematicMode();
   }
 });
 
@@ -47,6 +45,13 @@ async function toggleRightComments() {
 function handleToggleUpdate(data) {
   log('Toggles updated: ' + JSON.stringify(data));
   if (data.enableRightComments !== undefined) applyRightComments(data.enableRightComments);
+  if (data.enableCinematicMode !== undefined || data.cinematicStyle !== undefined || data.aspectRatio !== undefined) {
+    applyCinematicMode(
+      data.enableCinematicMode !== undefined ? data.enableCinematicMode : document.body.classList.contains('yt-cinematic'), 
+      data.cinematicStyle || 'crop',
+      data.aspectRatio || '21'
+    );
+  }
 }
 
 function applyRightComments(enabled) {
@@ -186,3 +191,32 @@ function toggleComments() {
     log('Comments section not found.');
   }
 }
+
+// Cinematic Mode Logic
+async function toggleCinematicMode() {
+  const result = await chrome.storage.local.get(['enable_cinematic_mode', 'cinematic_style', 'aspect_ratio']);
+  const newState = !result.enable_cinematic_mode;
+  await chrome.storage.local.set({ enable_cinematic_mode: newState });
+  applyCinematicMode(newState, result.cinematic_style || 'crop', result.aspect_ratio || '21');
+  log('Ctrl+. Triggered: Cinematic Mode is now ' + (newState ? 'ON' : 'OFF'));
+}
+
+function applyCinematicMode(enabled, style = 'crop', ratio = '21') {
+  document.body.classList.remove('yt-style-crop', 'yt-style-stretch');
+  document.body.classList.remove('yt-ratio-21', 'yt-ratio-235', 'yt-ratio-43');
+  if (enabled) {
+    document.body.classList.add('yt-cinematic');
+    document.body.classList.add(`yt-style-${style}`);
+    document.body.classList.add(`yt-ratio-${ratio}`);
+  } else {
+    document.body.classList.remove('yt-cinematic');
+  }
+  // Nudge YouTube player to recalculate layouts in case it got confused during transitions
+  window.dispatchEvent(new Event('resize'));
+}
+
+// Initial Load for Cinematic
+(async () => {
+  const settings = await chrome.storage.local.get(['enable_cinematic_mode', 'cinematic_style', 'aspect_ratio']);
+  if (settings.enable_cinematic_mode) applyCinematicMode(true, settings.cinematic_style || 'crop', settings.aspect_ratio || '21');
+})();

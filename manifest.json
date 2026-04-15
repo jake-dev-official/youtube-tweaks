@@ -9,7 +9,8 @@
     "128": "icon.png"
   },
   "permissions": [
-    "storage"
+    "storage",
+    "scripting"
   ],
   "host_permissions": [
     "https://www.youtube.com/*"
@@ -50,6 +51,18 @@
         "default": "Alt+Period"
       },
       "description": "Smart Comments Toggle"
+    },
+    "toggle-right-comments": {
+      "suggested_key": {
+        "default": "Ctrl+Comma"
+      },
+      "description": "Comments on Right Toggle"
+    },
+    "toggle-cinematic-mode": {
+      "suggested_key": {
+        "default": "Ctrl+Period"
+      },
+      "description": "Cinematic Mode Toggle"
     }
   }
 }

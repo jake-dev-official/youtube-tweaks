@@ -35,3 +35,54 @@ body.comments-on-right #primary #comments {
 #tweaks-sidebar-comments::-webkit-scrollbar-thumb:hover {
     background: #444;
 }
+
+/* Cinematic Mode Base */
+body.yt-cinematic .html5-video-player.ytp-fullscreen .html5-main-video,
+body.yt-cinematic :fullscreen .html5-main-video {
+    position: absolute !important;
+    margin: 0 !important;
+    transform: none !important;
+}
+
+/* Aspect Ratio: 2:1 */
+body.yt-cinematic.yt-ratio-21 .html5-video-player.ytp-fullscreen .html5-main-video,
+body.yt-cinematic.yt-ratio-21 :fullscreen .html5-main-video {
+    width: 100vw !important;
+    height: 50vw !important;
+    top: calc(50vh - 25vw) !important;
+    left: 0 !important;
+}
+
+/* Aspect Ratio: 2.35:1 */
+body.yt-cinematic.yt-ratio-235 .html5-video-player.ytp-fullscreen .html5-main-video,
+body.yt-cinematic.yt-ratio-235 :fullscreen .html5-main-video {
+    width: 100vw !important;
+    height: 42.55vw !important;
+    top: calc(50vh - 21.27vw) !important;
+    left: 0 !important;
+}
+
+/* Aspect Ratio: 4:3 */
+body.yt-cinematic.yt-ratio-43 .html5-video-player.ytp-fullscreen .html5-main-video,
+body.yt-cinematic.yt-ratio-43 :fullscreen .html5-main-video {
+    width: 133.33vh !important;
+    height: 100vh !important;
+    top: 0 !important;
+    left: calc(50vw - 66.66vh) !important;
+}
+
+/* Crop Style */
+body.yt-cinematic.yt-style-crop .html5-video-player.ytp-fullscreen .html5-main-video,
+body.yt-cinematic.yt-style-crop :fullscreen .html5-main-video {
+    object-fit: cover !important;
+}
+
+/* Stretch Style */
+body.yt-cinematic.yt-style-stretch .html5-video-player.ytp-fullscreen .html5-main-video,
+body.yt-cinematic.yt-style-stretch :fullscreen .html5-main-video {
+    object-fit: fill !important;
+}
+
+body.yt-cinematic .html5-video-player.ytp-fullscreen {
+    background-color: #000 !important;
+}

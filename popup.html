@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>YouTubeTweaks Popup</title>
     <style>
         body {
@@ -17,6 +18,7 @@
             margin: 0 0 20px 0;
             background: linear-gradient(90deg, #3ea6ff, #ff4e45);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
             font-weight: 700;
@@ -25,33 +27,59 @@
         .feature-group {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
         .feature-item {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            align-items: stretch;
             padding: 12px;
             background: #1e1e1e;
             border-radius: 12px;
             border: 1px solid #333;
+            gap: 8px;
             transition: border-color 0.2s;
         }
         .feature-item:hover {
             border-color: #444;
         }
-        .feature-info {
+        .header-row {
             display: flex;
-            flex-direction: column;
-            gap: 2px;
+            justify-content: space-between;
+            align-items: center;
         }
         .feature-name {
             font-size: 14px;
             font-weight: 600;
+            color: #efefef;
         }
-        .feature-desc {
+        .detail-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .grid-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .detail-text {
             font-size: 11px;
-            color: #aaa;
+            color: #999;
+            font-weight: 400;
+        }
+
+        /* Select Styles */
+        .style-select {
+            background-color: #333;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 12px;
+            outline: none;
+            cursor: pointer;
+            flex: 1;
         }
         
         /* Premium Switch Styles */
@@ -99,44 +127,130 @@
         }
 
         .footer {
-            margin-top: 20px;
+            margin-top: 10px;
             padding-top: 15px;
-            border-top: 1px solid #333;
             text-align: center;
             font-size: 11px;
             color: #666;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .shortcut-link {
+            color: #3ea6ff;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 12px;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .shortcut-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .key-badge {
+            background: #333;
+            color: #aaa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 10px;
+        }
+
+        .shortcut-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-top: 4px;
+        }
+
+        .grid-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: #aaa;
         }
     </style>
 </head>
 <body>
-    <div style="text-align: center; margin-bottom: 20px;">
-        <img src="icon.png" alt="Logo" style="width: 140px; height: auto; margin-bottom: 4px; object-fit: contain;">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-bottom: 20px;">
+        <img src="icon.png" alt="Logo" style="width: 120px; height: auto; object-fit: contain;">
         <h1 style="margin: 0;">YouTubeTweaks</h1>
     </div>
     <div class="feature-group">
+        <!-- Sidebar Section -->
         <div class="feature-item">
-            <div class="feature-info">
-                <span class="feature-name">Shortcuts</span>
-                <span class="feature-desc">Alt+, and Alt+.</span>
-            </div>
-            <label class="switch">
-                <input type="checkbox" id="enableShortcuts">
-                <span class="slider"></span>
-            </label>
-        </div>
-        <div class="feature-item">
-            <div class="feature-info">
+            <div class="header-row">
                 <span class="feature-name">Comments on Right</span>
-                <span class="feature-desc">Moves comments to sidebar</span>
+                <label class="switch">
+                    <input type="checkbox" id="enableRightComments">
+                    <span class="slider"></span>
+                </label>
             </div>
-            <label class="switch">
-                <input type="checkbox" id="enableRightComments">
-                <span class="slider"></span>
-            </label>
+            <div class="detail-grid">
+                <div class="grid-row">
+                    <span class="detail-text">Side-by-side View</span>
+                    <span id="key-right-comments" class="key-badge">...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Native Tweaks Section -->
+        <div class="feature-item">
+            <div class="header-row">
+                <span class="feature-name">Native Tweaks</span>
+                <label class="switch">
+                    <input type="checkbox" id="enableShortcuts">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="detail-grid">
+                <div class="grid-row">
+                    <span class="detail-text">Ask AI (Gemini)</span>
+                    <span id="key-gemini" class="key-badge">...</span>
+                </div>
+                <div class="grid-row">
+                    <span class="detail-text">Smart Comments</span>
+                    <span id="key-comments" class="key-badge">...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aspect Ratio Section -->
+        <div class="feature-item">
+            <div class="header-row">
+                <span class="feature-name">Aspect Ratio</span>
+                <label class="switch">
+                    <input type="checkbox" id="enableCinematicMode">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="detail-grid">
+                <div class="grid-row">
+                    <span class="detail-text">Fullscreen Only</span>
+                    <span id="key-cinematic" class="key-badge">...</span>
+                </div>
+                <div style="display: flex; gap: 8px; margin-top: 2px;">
+                    <select id="aspectRatio" class="style-select">
+                        <option value="21">2:1</option>
+                        <option value="235">2.35:1</option>
+                        <option value="43">4:3</option>
+                    </select>
+                    <select id="cinematicStyle" class="style-select">
+                        <option value="crop">Crop</option>
+                        <option value="stretch">Stretch</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
     <div class="footer">
-        Workflow Optimization v1.0
+        <a id="setupShortcuts" class="shortcut-link">Manage Keyboard Shortcuts</a>
     </div>
     <script src="popup.js"></script>
 </body>
