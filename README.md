@@ -18,7 +18,7 @@ Force your videos into a professional cinematic frame during **Fullscreen** play
 - **Multiple Ratios**: Toggle between **2:1**, **2.35:1**, and **4:3**.
 - **Dynamic Fits**: Choose between **Crop** (cover) or **Stretch** (fill).
 - **Shortcut**: `Ctrl + .` (Default)
-- **Note**: Only works in Fullscreen Only mode.
+- **Note**: Only works in fullscreen mode.
 
 ### 4. Video Quality HUD (Bi-Directional)
 Take manual control of YouTube's adaptive quality engine. Cycle through available resolutions instantly without opening the settings gear.
@@ -26,6 +26,9 @@ Take manual control of YouTube's adaptive quality engine. Cycle through availabl
 - **Cycle Down (Towards 144p)**: `Ctrl + ↓`
 - **Visual Feedback**: A premium, centered "toast" HUD confirms your quality selection instantly.
 - **Pro Tip**: This feature is "baked-in" to the extension and bypasses Chrome's strict keyboard limits.
+
+### 5. Native YouTube Bug Patches
+We also fix YouTube's own native bugs! The extension automatically patches YouTube's `Shift + /` shortcut menu bug so that it correctly toggles closed without forcing you to exit Fullscreen mode first.
 
 ## ⌨️ Pro Shortcuts & Customization
 
@@ -63,25 +66,26 @@ For the best experience and to avoid browser security blocks, **always use the "
 > Modern browsers often block `.crx` files that are not from the Official Web Store. The **Load Unpacked** method is the only 100% reliable way to install custom workflow tools like this.
 
 ### Step-by-Step Installation:
-1. **Open Extensions**: Go to `chrome://extensions`.
-2. **Developer Mode**: Ensure "Developer mode" is enabled (top-right).
-3. **Load Unpacked**: Click "Load unpacked" and select this project folder.
-4. **Pin for Power**: Pin the extension to your toolbar for instant access to the Master-Detail dashboard.
+1. **Download Code**: Click the green "Code" button at the top of the repository, select **Download ZIP**, and extract the folder to your computer.
+2. **Open Extensions**: Open your browser and navigate to `chrome://extensions`.
+3. **Developer Mode**: Ensure "Developer mode" is enabled (usually a toggle in the top-right).
+4. **Load Unpacked**: Click "Load unpacked" and select the folder you just extracted.
+5. **Pin for Power**: Pin the extension to your toolbar for instant access to the Master-Detail dashboard.
 
 ## 🎨 Design Philosophy & Architecture
 
 YouTubeTweaks follows a **Pro-First** design philosophy. We favor performance and reliability over flashy UI.
 
-### The "Hybrid" Shortcut System
-You will notice the extension uses two types of shortcuts in its dashboard:
-1. **Configurable (✎ Icon)**: These are native Chrome commands. We chose these for layout features so you can customize them to your own hand-positioning.
-2. **Hardcoded (Standard Style)**: Features like **Video Quality** use an internal state machine combined with `Ctrl+↑/↓`. We "bake these in" to bypass Chrome's native limit of 4 shortcuts, giving you more power than a standard extension without cluttering your browser settings.
+### The "Stealth" Shortcut System
+You will notice the extension uses two distinct styles in its dashboard:
+1. **Configurable (Interactive)**: These shortcuts light up blue when hovered over. You can click on them directly to jump to the browser's shortcut settings and customize your keys.
+2. **Hardcoded (Muted Gray)**: Core features like **Video Quality** use an internal state machine combined with `Ctrl + ↑ / ↓`. They are permanently "baked-in" to bypass browser limits, giving you more power.
 
 ---
 *Built for speed. Zero flicker. Elite minimalism.*
 
 
-**V1.0 Handover Complete.**
+**V1.1 Handover Complete.**
 
 
 **Developed by JAKEDev.**
