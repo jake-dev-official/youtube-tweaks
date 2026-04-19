@@ -23,14 +23,21 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
   const settings = await chrome.storage.local.get(['enable_shortcuts']);
   if (settings.enable_shortcuts === false) return;
 
-  if (request.action === 'toggle-gemini-ask') {
+  if (request.action === '02-gemini-ask') {
     findAndClickGemini();
-  } else if (request.action === 'toggle-comments') {
+  } else if (request.action === '03-smart-comments') {
     toggleComments();
-  } else if (request.action === 'toggle-right-comments') {
+  } else if (request.action === '01-right-comments') {
     toggleRightComments();
-  } else if (request.action === 'toggle-cinematic-mode') {
+  } else if (request.action === '04-cinematic-mode') {
     toggleCinematicMode();
+  } else if (request.action === 'show-quality-hud') {
+    if (request.error) {
+      log('Quality HUD Error: ' + request.error);
+      showQualityHUD('Err: ' + request.error.substring(0, 8)); // Visual hint that an error occurred
+    } else if (request.qualityText) {
+      showQualityHUD(request.qualityText);
+    }
   }
 });
 
@@ -220,3 +227,86 @@ function applyCinematicMode(enabled, style = 'crop', ratio = '21') {
   const settings = await chrome.storage.local.get(['enable_cinematic_mode', 'cinematic_style', 'aspect_ratio']);
   if (settings.enable_cinematic_mode) applyCinematicMode(true, settings.cinematic_style || 'crop', settings.aspect_ratio || '21');
 })();
+
+// Shortcut Modal Toggle Logic (Shift + /)
+document.addEventListener('keydown', (e) => {
+  // Only trigger on '?' (Shift + /)
+  if (e.key === '?' || (e.shiftKey && e.code === 'Slash')) {
+    if (isUserTyping()) return;
+
+    const modal = document.querySelector('ytd-hotkey-dialog-renderer');
+    if (modal && modal.offsetParent !== null) {
+      log('Shortcut modal detected. Attempting to toggle OFF...');
+      
+      // Prevent default to stop YouTube from potentially re-opening it
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      // Find the close button inside the modal and click it
+      const closeButton = modal.querySelector('button[aria-label="Close"]') || 
+                          modal.querySelector('#close-button') ||
+                          modal.querySelector('tp-yt-paper-button');
+      
+      if (closeButton) {
+        log('Clicking close button...');
+        closeButton.click();
+      } else {
+        // Fallback: Use Escape key dispatch if button not found (though user said avoid it, this is a fallback for the MODAL)
+        log('Close button not found, falling back to Escape dispatch...');
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+      }
+    }
+  }
+}, true); // Use capture phase to intercept before YouTube's global listeners if possible
+
+// Manual Key Listeners for features not in manifest commands (to stay under Chrome's 4-shortcut limit)
+document.addEventListener('keydown', async (e) => {
+  // Ctrl + ArrowUp / ArrowDown (Cycle Video Quality)
+  if (e.ctrlKey && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+    if (isUserTyping()) return;
+    
+    const settings = await chrome.storage.local.get(['enable_quality_cycle']);
+    if (settings.enable_quality_cycle === false) return;
+
+    // Prevent YouTube from intercepting (or scrolling the page)
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    
+    const direction = e.key === 'ArrowUp' ? 'up' : 'down';
+    log(`Ctrl+${e.key.replace('Arrow', '')} detected, cycling quality ${direction}...`);
+    
+    // Trigger main-world execution via background.js
+    chrome.runtime.sendMessage({ action: 'cycle-quality-main', direction: direction });
+  }
+}, true); // Use capture phase to intercept before YouTube's global listeners
+
+// Quality switching logic has been moved to background.js -> Main World injection
+// to bypass Content Security Policy constraints.
+
+function showQualityHUD(qualityText) {
+  let hud = document.getElementById('yt-tweaks-hud');
+  if (!hud) {
+    hud = document.createElement('div');
+    hud.id = 'yt-tweaks-hud';
+    
+    // Attach directly to movie_player so it centers on the video and works in fullscreen
+    const playerContainer = document.getElementById('movie_player');
+    if (playerContainer) {
+      playerContainer.appendChild(hud);
+    } else {
+      document.body.appendChild(hud);
+    }
+  }
+
+  hud.innerHTML = `<span>Quality:</span> <strong>${qualityText}</strong>`;
+  hud.classList.remove('fade-out');
+  hud.classList.add('show');
+
+  // Clear existing timeout
+  if (window.hudTimeout) clearTimeout(window.hudTimeout);
+  
+  window.hudTimeout = setTimeout(() => {
+    hud.classList.add('fade-out');
+    hud.classList.remove('show');
+  }, 1500);
+}

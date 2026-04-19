@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const enableQualityCycle = document.getElementById('enableQualityCycle');
     const enableShortcuts = document.getElementById('enableShortcuts');
     const enableRightComments = document.getElementById('enableRightComments');
     const enableCinematicMode = document.getElementById('enableCinematicMode');
@@ -10,25 +11,36 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateShortcutLabels() {
         chrome.commands.getAll((commands) => {
             const map = {
-                'toggle-gemini-ask': 'key-gemini',
-                'toggle-comments': 'key-comments',
-                'toggle-right-comments': 'key-right-comments',
-                'toggle-cinematic-mode': 'key-cinematic'
+                '01-right-comments': 'key-right-comments',
+                '02-gemini-ask': 'key-gemini',
+                '03-smart-comments': 'key-comments',
+                '04-cinematic-mode': 'key-cinematic'
             };
             commands.forEach(cmd => {
                 const spanId = map[cmd.name];
                 if (spanId) {
                     const el = document.getElementById(spanId);
-                    if (el) el.textContent = cmd.shortcut || 'Not set';
+                    if (el) {
+                        const formattedShortcut = (cmd.shortcut || 'Not set').replace(/\+/g, ' + ');
+                        el.textContent = formattedShortcut;
+                        el.classList.add('key-badge-official');
+                        el.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            chrome.tabs.create({ url: 'chrome://extensions/shortcuts' });
+                        });
+                    }
                 }
             });
+            // Quality Cycle is now bi-directional manual keys to bypass limits
         });
     }
 
     updateShortcutLabels();
 
     // Load current states
-    chrome.storage.local.get(['enable_shortcuts', 'enable_right_comments', 'enable_cinematic_mode', 'cinematic_style', 'aspect_ratio'], (result) => {
+    chrome.storage.local.get(['enable_quality_cycle', 'enable_shortcuts', 'enable_right_comments', 'enable_cinematic_mode', 'cinematic_style', 'aspect_ratio'], (result) => {
+        enableQualityCycle.checked = result.enable_quality_cycle !== false;
         enableShortcuts.checked = result.enable_shortcuts !== false;
         enableRightComments.checked = result.enable_right_comments === true;
         enableCinematicMode.checked = result.enable_cinematic_mode === true;
@@ -37,6 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Handle Toggles
+    enableQualityCycle.addEventListener('change', () => {
+        chrome.storage.local.set({ enable_quality_cycle: enableQualityCycle.checked });
+        notifyToggles();
+    });
+
     enableShortcuts.addEventListener('change', () => {
         chrome.storage.local.set({ enable_shortcuts: enableShortcuts.checked });
         notifyToggles();
@@ -62,15 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
         notifyToggles();
     });
 
-    setupShortcuts.addEventListener('click', () => {
-        chrome.tabs.create({ url: 'chrome://extensions/shortcuts' });
-    });
-
     function notifyToggles() {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             if (tabs[0]?.id) {
                 chrome.tabs.sendMessage(tabs[0].id, { 
                     action: 'updateToggles',
+                    enableQualityCycle: enableQualityCycle.checked,
                     enableShortcuts: enableShortcuts.checked,
                     enableRightComments: enableRightComments.checked,
                     enableCinematicMode: enableCinematicMode.checked,

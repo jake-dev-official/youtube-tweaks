@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "YouTubeTweaks",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Premium workflow shortcuts for YouTube.",
   "icons": {
     "16": "icon.png",
@@ -40,29 +40,29 @@
     }
   ],
   "commands": {
-    "toggle-gemini-ask": {
-      "suggested_key": {
-        "default": "Alt+Comma"
-      },
-      "description": "Toggle native YouTube Ask/Gemini"
-    },
-    "toggle-comments": {
-      "suggested_key": {
-        "default": "Alt+Period"
-      },
-      "description": "Smart Comments Toggle"
-    },
-    "toggle-right-comments": {
+    "01-right-comments": {
       "suggested_key": {
         "default": "Ctrl+Comma"
       },
       "description": "Comments on Right Toggle"
     },
-    "toggle-cinematic-mode": {
+    "02-gemini-ask": {
+      "suggested_key": {
+        "default": "Alt+Comma"
+      },
+      "description": "Ask Gemini Toggle"
+    },
+    "03-smart-comments": {
+      "suggested_key": {
+        "default": "Alt+Period"
+      },
+      "description": "Smart Comments Toggle"
+    },
+    "04-cinematic-mode": {
       "suggested_key": {
         "default": "Ctrl+Period"
       },
-      "description": "Cinematic Mode Toggle"
+      "description": "Aspect Ratio Toggle"
     }
   }
 }

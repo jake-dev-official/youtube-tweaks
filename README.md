@@ -20,25 +20,31 @@ Force your videos into a professional cinematic frame during **Fullscreen** play
 - **Shortcut**: `Ctrl + .` (Default)
 - **Note**: Only works in Fullscreen Only mode.
 
+### 4. Video Quality HUD (Bi-Directional)
+Take manual control of YouTube's adaptive quality engine. Cycle through available resolutions instantly without opening the settings gear.
+- **Cycle Up (Towards Auto)**: `Ctrl + ↑`
+- **Cycle Down (Towards 144p)**: `Ctrl + ↓`
+- **Visual Feedback**: A premium, centered "toast" HUD confirms your quality selection instantly.
+- **Pro Tip**: This feature is "baked-in" to the extension and bypasses Chrome's strict keyboard limits.
+
 ## ⌨️ Pro Shortcuts & Customization
 
 YouTubeTweaks uses the high-performance **Chrome Commands API**. This ensures shortcuts are fast and never conflict with YouTube's internal logic.
 
 ### Default Shortcuts
-| Feature | Default Browser Key |
-| :--- | :--- |
-| **Comments on Right** | `Ctrl + ,` |
-| **Ask AI (Gemini)** | `Alt + ,` |
-| **Smart Comments** | `Alt + .` |
-| **Aspect Ratio (Fullscreen)** | `Ctrl + .` |
+| Feature | Default Browser Key | Type |
+| :--- | :--- | :--- |
+| **Video Quality** | `Ctrl + ↑` / `Ctrl + ↓` | Hardcoded |
+| **Comments on Right** | `Ctrl + ,` | Customizable |
+| **Ask Gemini** | `Alt + ,` | Customizable |
+| **Smart Comments** | `Alt + .` | Customizable |
+| **Aspect Ratio** | `Ctrl + .` | Customizable |
 
 ### How to Change Them:
 1. Open the YouTubeTweaks popup.
-2. Click the **Manage Keyboard Shortcuts** link at the bottom.
-3. Find **YouTubeTweaks** in the list.
-4. Click the "Edit" (pencil) icon next to the command you want to change.
-5. Type your new key combination.
-6. **Done!** The extension popup will instantly show your updated key in its sleek capsule.
+2. **Hover and Click** any of the blue-highlighting shortcuts (e.g., `Ctrl + ,`).
+3. You will be taken instantly to the browser's shortcut management page.
+4. **Done!** The extension popup will instantly show your updated key in its sleek capsule.
 
 ## ⚙️ Initial Configuration (Default States)
 
@@ -61,6 +67,15 @@ For the best experience and to avoid browser security blocks, **always use the "
 2. **Developer Mode**: Ensure "Developer mode" is enabled (top-right).
 3. **Load Unpacked**: Click "Load unpacked" and select this project folder.
 4. **Pin for Power**: Pin the extension to your toolbar for instant access to the Master-Detail dashboard.
+
+## 🎨 Design Philosophy & Architecture
+
+YouTubeTweaks follows a **Pro-First** design philosophy. We favor performance and reliability over flashy UI.
+
+### The "Hybrid" Shortcut System
+You will notice the extension uses two types of shortcuts in its dashboard:
+1. **Configurable (✎ Icon)**: These are native Chrome commands. We chose these for layout features so you can customize them to your own hand-positioning.
+2. **Hardcoded (Standard Style)**: Features like **Video Quality** use an internal state machine combined with `Ctrl+↑/↓`. We "bake these in" to bypass Chrome's native limit of 4 shortcuts, giving you more power than a standard extension without cluttering your browser settings.
 
 ---
 *Built for speed. Zero flicker. Elite minimalism.*
