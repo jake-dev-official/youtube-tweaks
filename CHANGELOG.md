@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.1] - 2026-04-20
+
+### Fixed
+- Simplified Smart Comments toggle logic for 100% reliable scrolling across all browser resolutions and sidebar layouts.
+
+### Removed
+- Legacy 'YouTubeGeminiSearch' options files (dead code cleanup).
+
 ## [1.1.0] - 2026-04-19
 
 ### Added

@@ -85,7 +85,7 @@ You will notice the extension uses two distinct styles in its dashboard:
 *Built for speed. Zero flicker. Elite minimalism.*
 
 
-**V1.1 Handover Complete.**
+**v1.1.1 Handover Complete.**
 
 
 **Developed by JAKEDev.**

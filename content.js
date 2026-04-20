@@ -152,6 +152,7 @@ function findAndClickGemini() {
 function toggleComments() {
   log('Toggling Comments...');
   
+  // 1. Engagement Panel Logic (for side-panel/sidebar comments)
   const activeCommentPanel = document.querySelector('ytd-engagement-panel-section-list-renderer[visibility="ENGAGEMENT_PANEL_VISIBILITY_EXPANDED"]');
   const isCommentPanel = activeCommentPanel && (
     activeCommentPanel.innerText.includes('Comments') || 
@@ -167,6 +168,7 @@ function toggleComments() {
     }
   }
 
+  // 2. Fullscreen Logic
   if (document.fullscreenElement) {
     const fullScreenCommentButton = document.querySelector('.ytp-chrome-controls [aria-label*="Comments"]') || 
                                      document.querySelector('button[aria-label*="Comments"]') ||
@@ -178,21 +180,21 @@ function toggleComments() {
     }
   }
 
+  // 3. Smart Scroll Logic (for standard page layout)
+  // If we are scrolled down significantly (e.g. looking at comments), go back to top
+  if (window.scrollY > 200) {
+    log('Scrolled down. Returning to top...');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+
+  // Otherwise, we are at the top, so let's find and scroll to comments
   const commentsSection = document.getElementById('comments') || 
                           document.querySelector('ytd-comments') ||
                           document.querySelector('ytd-item-section-renderer#sections');
   
   if (commentsSection) {
-    const rect = commentsSection.getBoundingClientRect();
-    if (!document.fullscreenElement && rect.top >= 0 && rect.top <= 100) {
-      log('Already at comments. Scrolling back to top...');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    if (document.fullscreenElement) {
-      document.exitFullscreen().catch(err => log('Error exiting full screen: ' + err));
-    }
+    log('At top. Scrolling to comments...');
     commentsSection.scrollIntoView({ behavior: 'smooth' });
   } else {
     log('Comments section not found.');
