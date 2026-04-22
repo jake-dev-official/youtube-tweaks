@@ -4,8 +4,18 @@ function log(msg) {
 
 // Initialize toggles on load
 (async () => {
-  const settings = await chrome.storage.local.get(['enable_right_comments']);
+  const settings = await chrome.storage.local.get([
+    'enable_right_comments',
+    'enable_hide_shorts',
+    'enable_cinematic_mode',
+    'cinematic_style',
+    'aspect_ratio'
+  ]);
   if (settings.enable_right_comments) applyRightComments(true);
+  if (settings.enable_hide_shorts) applyHideShorts(true);
+  if (settings.enable_cinematic_mode) {
+    applyCinematicMode(true, settings.cinematic_style || 'crop', settings.aspect_ratio || '21');
+  }
 })();
 
 // Logic is now handled via Manifest Commands (relayed through background.js)
@@ -31,6 +41,8 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     toggleRightComments();
   } else if (request.action === '04-cinematic-mode') {
     toggleCinematicMode();
+  } else if (request.action === '05-hide-shorts') {
+    toggleHideShorts();
   } else if (request.action === 'show-quality-hud') {
     if (request.error) {
       log('Quality HUD Error: ' + request.error);
@@ -52,6 +64,7 @@ async function toggleRightComments() {
 function handleToggleUpdate(data) {
   log('Toggles updated: ' + JSON.stringify(data));
   if (data.enableRightComments !== undefined) applyRightComments(data.enableRightComments);
+  if (data.enableHideShorts !== undefined) applyHideShorts(data.enableHideShorts);
   if (data.enableCinematicMode !== undefined || data.cinematicStyle !== undefined || data.aspectRatio !== undefined) {
     applyCinematicMode(
       data.enableCinematicMode !== undefined ? data.enableCinematicMode : document.body.classList.contains('yt-cinematic'), 
@@ -224,11 +237,23 @@ function applyCinematicMode(enabled, style = 'crop', ratio = '21') {
   window.dispatchEvent(new Event('resize'));
 }
 
-// Initial Load for Cinematic
-(async () => {
-  const settings = await chrome.storage.local.get(['enable_cinematic_mode', 'cinematic_style', 'aspect_ratio']);
-  if (settings.enable_cinematic_mode) applyCinematicMode(true, settings.cinematic_style || 'crop', settings.aspect_ratio || '21');
-})();
+
+// Hide Shorts Logic
+async function toggleHideShorts() {
+  const result = await chrome.storage.local.get(['enable_hide_shorts']);
+  const newState = !result.enable_hide_shorts;
+  await chrome.storage.local.set({ enable_hide_shorts: newState });
+  applyHideShorts(newState);
+  log('Alt+S Triggered: Hide Shorts is now ' + (newState ? 'ON' : 'OFF'));
+}
+
+function applyHideShorts(enabled) {
+  if (enabled) {
+    document.body.classList.add('yt-hide-shorts');
+  } else {
+    document.body.classList.remove('yt-hide-shorts');
+  }
+}
 
 // Shortcut Modal Toggle Logic (Shift + /)
 document.addEventListener('keydown', (e) => {

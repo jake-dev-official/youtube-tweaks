@@ -133,3 +133,16 @@ body.yt-cinematic .html5-video-player.ytp-fullscreen {
 #yt-tweaks-hud strong {
     font-weight: 700;
 }
+
+/* Hide Shorts Feature */
+body.yt-hide-shorts ytd-rich-section-renderer:has(ytd-rich-shelf-renderer[is-shorts]),
+body.yt-hide-shorts ytd-reel-shelf-renderer,
+body.yt-hide-shorts ytd-rich-shelf-renderer[is-shorts],
+body.yt-hide-shorts ytd-mini-guide-entry-renderer:has(a[href^="/shorts"]),
+body.yt-hide-shorts ytd-guide-entry-renderer:has(a[href^="/shorts"]),
+body.yt-hide-shorts ytd-video-renderer:has([overlay-style="SHORTS"]),
+body.yt-hide-shorts ytd-grid-video-renderer:has([overlay-style="SHORTS"]),
+body.yt-hide-shorts ytd-compact-video-renderer:has([overlay-style="SHORTS"]),
+body.yt-hide-shorts #related ytd-compact-video-renderer:has([href^="/shorts"]) {
+    display: none !important;
+}

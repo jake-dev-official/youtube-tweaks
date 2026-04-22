@@ -63,6 +63,12 @@
         "default": "Ctrl+Period"
       },
       "description": "Aspect Ratio Toggle"
+    },
+    "05-hide-shorts": {
+      "suggested_key": {
+        "default": "Alt+S"
+      },
+      "description": "Hide YouTube Shorts Toggle"
     }
   }
 }
