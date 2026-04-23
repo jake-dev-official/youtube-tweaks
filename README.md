@@ -29,8 +29,7 @@ Take manual control of YouTube's adaptive quality engine. Cycle through availabl
 
 ### 5. Hide YouTube Shorts
 Instantly toggle the visibility of YouTube Shorts shelves and videos from your home feed and search results.
-- **Shortcut**: `Alt + S` (Default)
-- **Pro Tip**: This feature is "baked-in" to the extension and bypasses Chrome's strict keyboard limits.
+- **Toggle-Only**: Access this feature via the extension popup dashboard.
 
 ### 6. Native YouTube Bug Patches
 We also fix YouTube's own native bugs! The extension automatically patches YouTube's `Shift + /` shortcut menu bug so that it correctly toggles closed without forcing you to exit Fullscreen mode first.
@@ -47,7 +46,6 @@ YouTubeTweaks uses the high-performance **Chrome Commands API**. This ensures sh
 | **Ask Gemini** | `Alt + ,` | Customizable |
 | **Smart Comments** | `Alt + .` | Customizable |
 | **Aspect Ratio** | `Ctrl + .` | Customizable |
-| **Hide Shorts** | `Alt + S` | Hardcoded |
 
 ### How to Change Them:
 1. Open the YouTubeTweaks popup.

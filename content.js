@@ -303,17 +303,6 @@ document.addEventListener('keydown', async (e) => {
     // Trigger main-world execution via background.js
     chrome.runtime.sendMessage({ action: 'cycle-quality-main', direction: direction });
   }
-
-  // Alt + S (Hide YouTube Shorts Toggle)
-  if (e.altKey && e.code === 'KeyS') {
-    if (isUserTyping()) return;
-
-    e.preventDefault();
-    e.stopImmediatePropagation();
-
-    log('Alt+S detected, toggling shorts...');
-    toggleHideShorts();
-  }
 }, true); // Use capture phase to intercept before YouTube's global listeners
 
 // Quality switching logic has been moved to background.js -> Main World injection

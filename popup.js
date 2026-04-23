@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const enableRightComments = document.getElementById('enableRightComments');
     const enableCinematicMode = document.getElementById('enableCinematicMode');
     const enableHideShorts = document.getElementById('enableHideShorts');
+    const enableExtraMode = document.getElementById('enableExtraMode');
     const cinematicStyle = document.getElementById('cinematicStyle');
     const aspectRatio = document.getElementById('aspectRatio');
     const setupShortcuts = document.getElementById('setupShortcuts');
@@ -40,12 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
     updateShortcutLabels();
 
     // Load current states
-    chrome.storage.local.get(['enable_quality_cycle', 'enable_shortcuts', 'enable_right_comments', 'enable_cinematic_mode', 'enable_hide_shorts', 'cinematic_style', 'aspect_ratio'], (result) => {
+    chrome.storage.local.get(['enable_quality_cycle', 'enable_shortcuts', 'enable_right_comments', 'enable_cinematic_mode', 'enable_hide_shorts', 'enable_extra_mode', 'cinematic_style', 'aspect_ratio'], (result) => {
         enableQualityCycle.checked = result.enable_quality_cycle !== false;
         enableShortcuts.checked = result.enable_shortcuts !== false;
         enableRightComments.checked = result.enable_right_comments === true;
         enableCinematicMode.checked = result.enable_cinematic_mode === true;
         enableHideShorts.checked = result.enable_hide_shorts === true;
+        enableExtraMode.checked = result.enable_extra_mode === true;
         cinematicStyle.value = result.cinematic_style || 'crop';
         aspectRatio.value = result.aspect_ratio || '21';
     });
@@ -76,6 +78,11 @@ document.addEventListener('DOMContentLoaded', () => {
         notifyToggles();
     });
 
+    enableExtraMode.addEventListener('change', () => {
+        chrome.storage.local.set({ enable_extra_mode: enableExtraMode.checked });
+        notifyToggles();
+    });
+
     cinematicStyle.addEventListener('change', () => {
         chrome.storage.local.set({ cinematic_style: cinematicStyle.value });
         notifyToggles();
@@ -96,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     enableRightComments: enableRightComments.checked,
                     enableCinematicMode: enableCinematicMode.checked,
                     enableHideShorts: enableHideShorts.checked,
+                    enableExtraMode: enableExtraMode.checked,
                     cinematicStyle: cinematicStyle.value,
                     aspectRatio: aspectRatio.value
                 }, () => {

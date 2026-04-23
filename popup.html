@@ -222,6 +222,19 @@
             font-size: 11px;
             color: var(--badge-text);
         }
+
+        .feature-row {
+            display: flex;
+            gap: 8px;
+            align-items: stretch;
+        }
+        .feature-row .feature-item {
+            flex: 1;
+            padding: 8px 10px;
+        }
+        .feature-row .feature-name {
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
@@ -313,19 +326,24 @@
             </div>
         </div>
 
-        <!-- Hide Shorts Section -->
-        <div class="feature-item">
-            <div class="header-row">
-                <span class="feature-name">Hide Shorts</span>
-                <label class="switch">
-                    <input type="checkbox" id="enableHideShorts">
-                    <span class="slider"></span>
-                </label>
+        <!-- Split Row Section -->
+        <div class="feature-row">
+            <div class="feature-item">
+                <div class="header-row">
+                    <span class="feature-name">Hide Shorts</span>
+                    <label class="switch">
+                        <input type="checkbox" id="enableHideShorts">
+                        <span class="slider"></span>
+                    </label>
+                </div>
             </div>
-            <div class="detail-grid">
-                <div class="grid-row">
-                    <span class="detail-text">Clean Feed Toggle</span>
-                    <span id="key-shorts" class="key-badge key-badge-fixed"><b>Alt + S</b></span>
+            <div class="feature-item">
+                <div class="header-row">
+                    <span class="feature-name">Extra Mode</span>
+                    <label class="switch">
+                        <input type="checkbox" id="enableExtraMode">
+                        <span class="slider"></span>
+                    </label>
                 </div>
             </div>
         </div>
