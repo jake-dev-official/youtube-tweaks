@@ -41,8 +41,6 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     toggleRightComments();
   } else if (request.action === '04-cinematic-mode') {
     toggleCinematicMode();
-  } else if (request.action === '05-hide-shorts') {
-    toggleHideShorts();
   } else if (request.action === 'show-quality-hud') {
     if (request.error) {
       log('Quality HUD Error: ' + request.error);
@@ -304,6 +302,17 @@ document.addEventListener('keydown', async (e) => {
     
     // Trigger main-world execution via background.js
     chrome.runtime.sendMessage({ action: 'cycle-quality-main', direction: direction });
+  }
+
+  // Alt + S (Hide YouTube Shorts Toggle)
+  if (e.altKey && e.code === 'KeyS') {
+    if (isUserTyping()) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    log('Alt+S detected, toggling shorts...');
+    toggleHideShorts();
   }
 }, true); // Use capture phase to intercept before YouTube's global listeners
 

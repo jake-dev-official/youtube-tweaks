@@ -15,8 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 '01-right-comments': 'key-right-comments',
                 '02-gemini-ask': 'key-gemini',
                 '03-smart-comments': 'key-comments',
-                '04-cinematic-mode': 'key-cinematic',
-                '05-hide-shorts': 'key-shorts'
+                '04-cinematic-mode': 'key-cinematic'
             };
             commands.forEach(cmd => {
                 const spanId = map[cmd.name];
