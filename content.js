@@ -237,15 +237,8 @@ function applyCinematicMode(enabled, style = 'crop', ratio = '21') {
 
 
 // Hide Shorts Logic
-async function toggleHideShorts() {
-  const result = await chrome.storage.local.get(['enable_hide_shorts']);
-  const newState = !result.enable_hide_shorts;
-  await chrome.storage.local.set({ enable_hide_shorts: newState });
-  applyHideShorts(newState);
-  log('Alt+S Triggered: Hide Shorts is now ' + (newState ? 'ON' : 'OFF'));
-}
-
 function applyHideShorts(enabled) {
+
   if (enabled) {
     document.body.classList.add('yt-hide-shorts');
   } else {
